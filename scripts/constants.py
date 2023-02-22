@@ -2,16 +2,16 @@ import os
 from urllib.parse import urljoin
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(encoding='utf-8')
 
 TOKEN = os.environ['TOKEN']  # your token
 ORG_ID = os.environ['ORG_ID']  # organisation ID
+MAIL_DOMAIN = os.environ['MAIL_DOMAIN']
 
 BASE_URL = 'https://api360.yandex.net/directory/v1/org/{org_id}/'.format(org_id=ORG_ID) # base API endpoint
 USERS_URL = urljoin(BASE_URL, 'users/')  # users endpoint
 GROUPS_URL = urljoin(BASE_URL, 'groups/')  # users endpoint
 RULES_URL = urljoin(BASE_URL, 'rules/')  # rules endpoint
-MAIL_DOMAIN = os.environ['MAIL_DOMAIN']
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # current directory location
 SAVE_DIR = os.path.join(os.path.dirname(BASE_DIR), 'results')  # save directory location

@@ -34,7 +34,7 @@ def validate_user_ids(input_list, users):
         
 
 def get_payload(session, for_method='post'):
-    existing_users = get_users(session)
+    existing_users = list(get_users(session))
     payload = {}
     if for_method == 'post':
         if group_name := input('Name for the team:\n'):
