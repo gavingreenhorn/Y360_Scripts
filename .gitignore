@@ -1,0 +1,8 @@
+.env
+venv
+.git
+http_cache*
+__pycache__
+.vscode
+archived
+*.csv
