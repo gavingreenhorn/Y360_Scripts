@@ -7,9 +7,9 @@
  - `python3 -m venv venv`
  - `. venv/bin/activate`
  - `python3 -m pip install -r requirements.txt`
- - `TOKEN=... > .env`
- - `ORG_ID=... >> .env`
- - `MAIL_DOMAIN=... >> .env`
+ - `echo TOKEN=... > .env`
+ - `echo ORG_ID=... >> .env`
+ - `echo MAIL_DOMAIN=... >> .env`
 
 ## Usage
 

@@ -7,12 +7,9 @@ from urllib.parse import urljoin
 from Y360_allusers import get_users
 
 from constants import (
-    CACHE_EXPIRATION, GROUPS_URL, TOKEN, MAIL_DOMAIN,
-    MEMBER_FORMAT_INVALID, GROUPS_MENU)
-
-ACCEPT_HEADER = {'Accept': 'application/json'}
-CONTENT_TYPE_HEADER = {'Content-Type': 'text/plain; charset=utf-8'}
-BASE_HEADERS = {'Authorization': f'OAuth {TOKEN}'}
+    CACHE_EXPIRATION, GROUPS_URL, MAIL_DOMAIN,
+    MEMBER_FORMAT_INVALID, GROUPS_MENU, ACCEPT_HEADER,
+    CONTENT_TYPE_HEADER)
 
 
 def validate_user_id(input_string, users):
@@ -67,16 +64,16 @@ def get_payload(session, for_method='post'):
 
 def send_request(action, session):
     parameters = {
-        '1': {'verb': 'get', 'extra_headers': ACCEPT_HEADER},
-        '2': {'verb': 'get', 'extra_headers': ACCEPT_HEADER},
-        '3': {'verb': 'patch', 'extra_headers': CONTENT_TYPE_HEADER},
-        '4': {'verb': 'post', 'extra_headers': CONTENT_TYPE_HEADER}
+        '1': {'verb': 'get', 'headers': ACCEPT_HEADER},
+        '2': {'verb': 'get', 'headers': ACCEPT_HEADER},
+        '3': {'verb': 'patch', 'headers': CONTENT_TYPE_HEADER},
+        '4': {'verb': 'post', 'headers': CONTENT_TYPE_HEADER}
     }
     params = parameters[action]
     method = getattr(session, params['verb'])
+    headers = params['headers']
     json = None
     url = GROUPS_URL
-    headers = BASE_HEADERS | params['extra_headers']
     if action in '23':
         if not (group_id := input('Enter group ID: ')):
             raise ValueError('ID cannot be empty')

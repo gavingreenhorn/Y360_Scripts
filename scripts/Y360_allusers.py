@@ -9,7 +9,7 @@ from prettytable import PrettyTable
 from constants import (
     USERS_INPUT_FIELDS, USERS_OUTPUT_FIELDS,
     CACHE_EXPIRATION, USERS_URL, USER_STR_TEMPLATE,
-    USERS_PER_PAGE, TOKEN, OUTPUT_FILE_PATH)
+    USERS_PER_PAGE, OUTPUT_FILE_PATH, ACCEPT_HEADER)
 
 
 class User(namedtuple('User', USERS_INPUT_FIELDS)):
@@ -40,16 +40,12 @@ class User(namedtuple('User', USERS_INPUT_FIELDS)):
 
 
 def get_users(session: CachedSession) -> Iterable[User]:
-    headers = {
-        'Authorization': f'OAuth {TOKEN}',
-        'Accept': 'application/json'
-    }
     params = {
         'perPage': USERS_PER_PAGE
     }
     response = session.get(
             url=USERS_URL,
-            headers=headers,
+            headers=ACCEPT_HEADER,
             params=params)
     response.raise_for_status()
     if 'users' not in (json_data := response.json()):

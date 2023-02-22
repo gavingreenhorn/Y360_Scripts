@@ -24,6 +24,10 @@ CACHE_EXPIRATION = 600  # milliseconds
 USERS_INPUT_FIELDS = ['id', 'name', 'nickname', 'email']  # fields to read from JSON response - see available fields @ YAPI docs
 USERS_OUTPUT_FIELDS = ['id', 'first_name', 'last_name', 'nickname', 'email']  # fields to output to CSV / console
 
+BASE_HEADERS = {'Authorization': f'OAuth {TOKEN}'}
+ACCEPT_HEADER = BASE_HEADERS | {'Accept': 'application/json'}
+CONTENT_TYPE_HEADER = BASE_HEADERS | {'Content-Type': 'text/plain; charset=utf-8'}
+
 USER_STR_TEMPLATE = '{class_name}{fields}'
 
 # MESSAGES
