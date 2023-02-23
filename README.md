@@ -13,24 +13,24 @@
 
 ## Usage
 
-- get all users: `python3 scripts/Y360_allusers.py`
+- get all users: `python3 scripts users.py`
 
 | user data is controled by `USERS_INPUT_FIELDS` (see scripts/constants.py)
 
-| csv columns are controlled by `USERS_OUTPUT_FIELDS` (see scripts/constants.py)
+| csv columns are controlled by `USERS_OUTPUT_FIELDS`
 
-| csv file is saved to `SAVE_DIR` (see scripts/constants.py)
+| csv file is saved to OUTPUT_FOLDER_NAME under OUTPUT_FILE_NAME inside the current working directory (unless -o --output is specified)
 
-| calling with the argument `-v` outputs user data to console 
-- get all groups: `python3 scripts/Y360_groups.py`
+| calling with the argument `-v --verbose` outputs user data to console 
+- get all groups: `python3 scripts groups`
 
 | select 1 in the menu
-- get group details: `python3 scripts/Y360_groups.py`
+- get group details: `python3 scripts groups`
 
 | select 2 in the menu and provide group ID
-- patch existing group: `python3 scripts/Y360_groups.py`
+- patch existing group: `python3 scripts groups`
 
 | select 3 in the menu, provide group ID and required details
-- create a new group: `python3 scripts/Y360_groups.py`
+- create a new group: `python3 scripts groups`
 
 | select 4 in the menu and provide required details

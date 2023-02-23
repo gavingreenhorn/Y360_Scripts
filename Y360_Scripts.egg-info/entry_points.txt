@@ -1,2 +1,0 @@
-[console_scripts]
-yandex = scripts:main
