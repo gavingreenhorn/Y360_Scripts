@@ -37,6 +37,7 @@ MEMBER_FORMAT_INVALID = (
     f'- emails: [alphanumeric strings ending with {MAIL_DOMAIN}]\n'
     '- nicknames [alphanumeric strings]\n'
     'are accepted!')
+GROUP_INFO = 'ID: [{id}]  Name: [{name}]  Email: [{email}]\nAdmins:\n{admins}\nMembers:\n{members}'
 GROUPS_MENU = """
 Select an action:
 1. Show all groups

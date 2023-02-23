@@ -1,16 +1,13 @@
-import csv
-import sys
 from collections import namedtuple
 from pathlib import Path
-from typing import Iterable, Sequence, Optional
+from typing import Iterable, Optional
 
 from requests_cache import CachedSession
-from prettytable import PrettyTable
 
 from constants import (
-    USERS_INPUT_FIELDS, USERS_OUTPUT_FIELDS,
-    CACHE_EXPIRATION, USERS_URL, USER_STR_TEMPLATE,
-    USERS_PER_PAGE, OUTPUT_FILE_NAME, ACCEPT_HEADER)
+    CACHE_EXPIRATION, OUTPUT_FILE_NAME, USERS_INPUT_FIELDS, USER_STR_TEMPLATE,
+    USERS_PER_PAGE, USERS_URL, ACCEPT_HEADER)
+from utils import get_user_rows, write_to_csv, get_users_table
 
 
 class User(namedtuple('User', USERS_INPUT_FIELDS)):
@@ -55,40 +52,14 @@ def get_users(session: CachedSession) -> Iterable[User]:
         yield User(**json_object)
 
 
-def user_to_row(user: User) -> Iterable[Sequence]:
-    yield [getattr(user, field) for field in USERS_OUTPUT_FIELDS]
-
-
-def get_user_rows(session: CachedSession) -> Iterable[Sequence]:
-    for user in get_users(session):
-        yield from user_to_row(user)
-
-
-def write_to_csv(rows, filename) -> None:
-    with open(filename, 'wt', encoding='utf8') as file:
-            writer = csv.writer(
-                file,
-                dialect=csv.unix_dialect,
-                quoting=csv.QUOTE_MINIMAL)
-            writer.writerows(
-                [USERS_OUTPUT_FIELDS, *rows])
-
-
-def print_users_table(rows) -> None:
-    users_table = PrettyTable()
-    users_table.field_names = USERS_OUTPUT_FIELDS
-    users_table.add_rows(rows)
-    print(users_table)
-
-
 def main(path, verbose=False, *args, **kwargs):
     path.mkdir(exist_ok=True)
     output_file = Path(path) / OUTPUT_FILE_NAME
     with CachedSession(expire_after=CACHE_EXPIRATION) as session:
-        rows = list(get_user_rows(session))
+        rows = list(get_user_rows(get_users(session)))
         write_to_csv(rows, output_file)
         if verbose:
-            print_users_table(rows)
+            print(get_users_table(rows))
     print(f'Saved results to {output_file}')
 
 

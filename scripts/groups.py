@@ -1,15 +1,15 @@
-from typing import NamedTuple
-
-from pprint import pprint
 from requests_cache import CachedSession
 from urllib.parse import urljoin
 
 from users import get_users
-
+from utils import get_users_table, get_user_rows
 from constants import (
     CACHE_EXPIRATION, GROUPS_URL, MAIL_DOMAIN,
     MEMBER_FORMAT_INVALID, GROUPS_MENU, ACCEPT_HEADER,
-    CONTENT_TYPE_HEADER)
+    CONTENT_TYPE_HEADER, GROUP_INFO)
+
+
+GROUP_FIELDS = ('id', 'name', 'email', 'admins', 'members')
 
 
 def validate_user_id(input_string, users):
@@ -33,8 +33,7 @@ def validate_user_ids(input_list, users):
         yield validate_user_id(input_string, users)
         
 
-def get_payload(session, for_method='post'):
-    existing_users = list(get_users(session))
+def get_payload(session, existing_users, for_method='post'):
     payload = {}
     if for_method == 'post':
         if group_name := input('Name for the team:\n'):
@@ -62,7 +61,7 @@ def get_payload(session, for_method='post'):
     return payload
 
 
-def send_request(action, session):
+def send_request(action, session, users):
     parameters = {
         '1': {'verb': 'get', 'headers': ACCEPT_HEADER},
         '2': {'verb': 'get', 'headers': ACCEPT_HEADER},
@@ -79,21 +78,51 @@ def send_request(action, session):
             raise ValueError('ID cannot be empty')
         url = urljoin(GROUPS_URL, group_id)
     if action == '3':
-        json=get_payload(session, for_method='patch')
+        json=get_payload(session, users, for_method='patch')
     elif action == '4':
-        json=get_payload(session)
+        json=get_payload(session, users)
     return method(
         url=url,
         headers=headers,
         json=json)
 
 
+def get_group_data(json_object, users):
+    group_data = {}
+    for key in GROUP_FIELDS:
+        group_data[key] = json_object.get(key)
+    if admins := group_data.get('admins'):
+        group_data['admins'] = get_user_rows(
+            (user for user in users if user.id in
+            (admin['id'] for admin in admins)))
+    if members := group_data.get('members'):
+        group_data['members'] = get_user_rows(
+            (user for user in users if user.id in
+            (member['id'] for member in members)))
+    return group_data
+
+
+def get_group_table(data):
+    if admins := data.get('admins'):
+        data['admins'] = get_users_table(admins)
+    if members := data.get('members'):
+        data['members'] = get_users_table(members)
+    return GROUP_INFO.format(**data)
+
+
 def main(*args, **kwargs):
     with CachedSession(expire_after=CACHE_EXPIRATION) as session:
         if (action := input(GROUPS_MENU)) in '1234':
-            response = send_request(action, session)
-            print(response.status_code)
-            pprint(response.json())
+            existing_users = list(get_users(session))
+            response = send_request(action, session, existing_users)
+            if json_data := response.json():
+                if 'groups' in json_data:
+                    for group in json_data['groups']:
+                        data = get_group_data(group, existing_users)
+                        print(get_group_table(data))
+                else:
+                    data = get_group_data(json_data, existing_users)
+                    print(get_group_table(data))
         else:
             print('Unsupported action')
 

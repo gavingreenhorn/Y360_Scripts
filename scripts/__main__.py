@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 from pathlib import Path
 
+from constants import OUTPUT_FOLDER_NAME
 from groups import main as run_groups
 from rules import main as run_rules
 from users import main as run_users
@@ -11,7 +12,7 @@ def main(args):
     if preferred_location and Path(preferred_location).parent.exists():
         save_dir = Path(preferred_location)
     else:
-        save_dir = Path(Path.cwd() / 'results')
+        save_dir = Path(Path.cwd() / OUTPUT_FOLDER_NAME)
     actions = {
         'users': run_users,
         'groups': run_groups,
