@@ -4,5 +4,6 @@ venv
 http_cache*
 __pycache__
 .vscode
-archived
 *.csv
+build
+dist

@@ -1,6 +1,7 @@
 import csv
 import sys
 from collections import namedtuple
+from pathlib import Path
 from typing import Iterable, Sequence, Optional
 
 from requests_cache import CachedSession
@@ -9,7 +10,7 @@ from prettytable import PrettyTable
 from constants import (
     USERS_INPUT_FIELDS, USERS_OUTPUT_FIELDS,
     CACHE_EXPIRATION, USERS_URL, USER_STR_TEMPLATE,
-    USERS_PER_PAGE, OUTPUT_FILE_PATH, ACCEPT_HEADER)
+    USERS_PER_PAGE, OUTPUT_FILE_NAME, ACCEPT_HEADER)
 
 
 class User(namedtuple('User', USERS_INPUT_FIELDS)):
@@ -63,8 +64,8 @@ def get_user_rows(session: CachedSession) -> Iterable[Sequence]:
         yield from user_to_row(user)
 
 
-def write_to_csv(rows) -> None:
-    with open(OUTPUT_FILE_PATH, 'wt', encoding='utf8') as file:
+def write_to_csv(rows, filename) -> None:
+    with open(filename, 'wt', encoding='utf8') as file:
             writer = csv.writer(
                 file,
                 dialect=csv.unix_dialect,
@@ -80,13 +81,16 @@ def print_users_table(rows) -> None:
     print(users_table)
 
 
-def main():
+def main(path, verbose=False, *args, **kwargs):
+    path.mkdir(exist_ok=True)
+    output_file = Path(path) / OUTPUT_FILE_NAME
     with CachedSession(expire_after=CACHE_EXPIRATION) as session:
         rows = list(get_user_rows(session))
-        write_to_csv(rows)
-        if '-v' in sys.argv:
+        write_to_csv(rows, output_file)
+        if verbose:
             print_users_table(rows)
+    print(f'Saved results to {output_file}')
 
 
 if __name__ == '__main__':
-    main()
+    main(Path(input('Enter a path to save directory:\n')))

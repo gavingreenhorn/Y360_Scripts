@@ -30,7 +30,7 @@ def modify(json):
     return json
 
 
-if __name__ == '__main__':
+def main(*args, **kwargs):
     with requests.Session() as session:
         session.headers.update({
             'Authorization': f'OAuth {TOKEN}',
@@ -51,3 +51,7 @@ if __name__ == '__main__':
             if input('Write a new rule? [Y|N]: ') in ('Y', 'y', 'yes'):
                 json = modify(json)
                 put_rules(session, json)
+
+
+if __name__ == '__main__':
+    main()

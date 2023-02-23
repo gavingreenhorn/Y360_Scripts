@@ -1,4 +1,4 @@
-# Yandex API scripts
+# Y360 API scripts
 ## Requirements
  - Python 3.9+ (`python3 --version`)
 ## Deployment

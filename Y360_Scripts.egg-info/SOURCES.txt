@@ -1,0 +1,9 @@
+LICENSE
+README.md
+pyproject.toml
+Y360_Scripts.egg-info/PKG-INFO
+Y360_Scripts.egg-info/SOURCES.txt
+Y360_Scripts.egg-info/dependency_links.txt
+Y360_Scripts.egg-info/entry_points.txt
+Y360_Scripts.egg-info/requires.txt
+Y360_Scripts.egg-info/top_level.txt

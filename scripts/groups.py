@@ -4,7 +4,7 @@ from pprint import pprint
 from requests_cache import CachedSession
 from urllib.parse import urljoin
 
-from Y360_allusers import get_users
+from users import get_users
 
 from constants import (
     CACHE_EXPIRATION, GROUPS_URL, MAIL_DOMAIN,
@@ -88,7 +88,7 @@ def send_request(action, session):
         json=json)
 
 
-def main():
+def main(*args, **kwargs):
     with CachedSession(expire_after=CACHE_EXPIRATION) as session:
         if (action := input(GROUPS_MENU)) in '1234':
             response = send_request(action, session)

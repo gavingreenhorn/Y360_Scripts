@@ -13,10 +13,8 @@ USERS_URL = urljoin(BASE_URL, 'users/')  # users endpoint
 GROUPS_URL = urljoin(BASE_URL, 'groups/')  # users endpoint
 RULES_URL = urljoin(BASE_URL, 'rules/')  # rules endpoint
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # current directory location
-SAVE_DIR = os.path.join(os.path.dirname(BASE_DIR), 'results')  # save directory location
+OUTPUT_FOLDER_NAME = 'results'  # name of the folder that is created to store saved files
 OUTPUT_FILE_NAME = 'users.csv'  # name under which a csv is saved
-OUTPUT_FILE_PATH = os.path.join(SAVE_DIR, OUTPUT_FILE_NAME)  # full path to a a file being saved
 
 USERS_PER_PAGE = 800  # how many users are loaded
 CACHE_EXPIRATION = 600  # milliseconds

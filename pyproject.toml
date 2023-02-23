@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Y360_Scripts"
+version = "0.0.1"
+authors = [
+  { name="GavinGreenhorn", email="gavingreenhorn@gmail.com" },
+]
+description = "Scripts to help interacting with Y360 REST API"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "python-dotenv",
+  "requests-cache",
+  "prettytable",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/gavingreenhorn/Y360_Scripts"
+
+[project.scripts]
+yandex = "scripts:main"
