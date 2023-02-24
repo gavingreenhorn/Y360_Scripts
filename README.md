@@ -12,16 +12,23 @@
  - `echo MAIL_DOMAIN=... >> .env`
 
 ## Usage
-
+### Users
 - get all users: `python3 scripts users.py`
 
 | user data is controled by `USERS_INPUT_FIELDS` (see scripts/constants.py)
 
 | csv columns are controlled by `USERS_OUTPUT_FIELDS`
 
-| csv file is saved to `OUTPUT_FOLDER_NAME` under `OUTPUT_FILE_NAME` inside the current working directory (unless `-o --output` is specified)
+| csv file is saved to `OUTPUT_FOLDER_NAME` under `OUTPUT_FILE_NAME` inside the current working directory
 
-| calling with the argument `-v --verbose` outputs user data to console 
+| if `-o --output` argument is given, file is saved to the given directory under `OUTPUT_FILE_NAME`
+
+| calling with the option `-v --verbose` outputs user data to console 
+### Groups
+Calling with the option `-v --verbose` will output all group members to console.
+
+Default number of users to output is controlled by the `MEMBERS_OUTPUT_LIMIT` constant.
+
 - get all groups: `python3 scripts groups`
 
 | select 1 in the menu

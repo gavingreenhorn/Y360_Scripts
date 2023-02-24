@@ -18,9 +18,11 @@ OUTPUT_FILE_NAME = 'users.csv'  # name under which a csv is saved
 
 USERS_PER_PAGE = 800  # how many users are loaded
 CACHE_EXPIRATION = 600  # milliseconds
+MEMBERS_OUTPUT_LIMIT = 5 # milliseconds
 
 USERS_INPUT_FIELDS = ['id', 'name', 'nickname', 'email']  # fields to read from JSON response - see available fields @ YAPI docs
 USERS_OUTPUT_FIELDS = ['id', 'first_name', 'last_name', 'nickname', 'email']  # fields to output to CSV / console
+GROUP_FIELDS = ('id', 'name', 'email', 'members')
 
 BASE_HEADERS = {'Authorization': f'OAuth {TOKEN}'}
 ACCEPT_HEADER = BASE_HEADERS | {'Accept': 'application/json'}
@@ -30,14 +32,8 @@ USER_STR_TEMPLATE = '{class_name}{fields}'
 
 # MESSAGES
 
-MEMBER_FORMAT_INVALID = (
-    'Invalid user identifier provided: {identifier} '
-    'Only:\n'
-    '- IDs: [numeric strings]\n'
-    f'- emails: [alphanumeric strings ending with {MAIL_DOMAIN}]\n'
-    '- nicknames [alphanumeric strings]\n'
-    'are accepted!')
-GROUP_INFO = 'ID: [{id}]  Name: [{name}]  Email: [{email}]\nAdmins:\n{admins}\nMembers:\n{members}'
+GROUP_INFO = ('ID: [{id}]  Name: [{name}]  Email: [{email}]'
+              '\nMembers: [{members_count}]\n{members}')
 GROUPS_MENU = """
 Select an action:
 1. Show all groups
@@ -45,6 +41,15 @@ Select an action:
 3. Change a group
 4. Create a new group
 """
+JSON_CONTENT_MISSING = 'No json data was returned in response'
+MEMBER_FORMAT_INVALID = (
+    'Invalid user identifier provided: {identifier} '
+    'Only:\n'
+    '- IDs: [numeric strings]\n'
+    f'- emails: [alphanumeric strings ending with {MAIL_DOMAIN}]\n'
+    '- nicknames [alphanumeric strings]\n'
+    'are accepted!')
+TRUNCATED_NOTIFICATION = '\n[Members output truncated to {limit}]'
 
 # RULES TEMPLATES
 
