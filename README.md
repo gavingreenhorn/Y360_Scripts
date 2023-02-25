@@ -41,3 +41,7 @@ Default number of users to output is controlled by the `MEMBERS_OUTPUT_LIMIT` co
 - create a new group: `python3 scripts groups`
 
 | select 4 in the menu and provide required details
+### Rules
+- get current mail routing configuration: `python3 scripts rules`
+
+| 'pretty prints' raw JSON response containing current rules
