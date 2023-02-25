@@ -8,10 +8,10 @@ TOKEN = os.environ['TOKEN']  # your token
 ORG_ID = os.environ['ORG_ID']  # organisation ID
 MAIL_DOMAIN = os.environ['MAIL_DOMAIN']
 
-BASE_URL = 'https://api360.yandex.net/directory/v1/org/{org_id}/'.format(org_id=ORG_ID) # base API endpoint
+BASE_URL = f'https://api360.yandex.net/directory/v1/org/{ORG_ID}/' # base API endpoint
 USERS_URL = urljoin(BASE_URL, 'users/')  # users endpoint
 GROUPS_URL = urljoin(BASE_URL, 'groups/')  # users endpoint
-RULES_URL = urljoin(BASE_URL, 'rules/')  # rules endpoint
+RULES_URL = f'https://api360.yandex.net/admin/v1/mail/routing/org/{ORG_ID}/rules'  # rules endpoint
 
 OUTPUT_FOLDER_NAME = 'results'  # name of the folder that is created to store saved files
 OUTPUT_FILE_NAME = 'users.csv'  # name under which a csv is saved
@@ -27,21 +27,22 @@ GROUP_FIELDS = ('id', 'name', 'email', 'members')
 BASE_HEADERS = {'Authorization': f'OAuth {TOKEN}'}
 ACCEPT_HEADER = BASE_HEADERS | {'Accept': 'application/json'}
 CONTENT_TYPE_HEADER = BASE_HEADERS | {'Content-Type': 'text/plain; charset=utf-8'}
+REQUEST_PARAMETERS = {
+    1: {'verb': 'get', 'headers': ACCEPT_HEADER},
+    2: {'verb': 'get', 'headers': ACCEPT_HEADER},
+    3: {'verb': 'patch', 'headers': CONTENT_TYPE_HEADER},
+    4: {'verb': 'post', 'headers': CONTENT_TYPE_HEADER}
+}
 
 USER_STR_TEMPLATE = '{class_name}{fields}'
 
-# MESSAGES
-
 GROUP_INFO = ('ID: [{id}]  Name: [{name}]  Email: [{email}]'
               '\nMembers: [{members_count}]\n{members}')
-GROUPS_MENU = """
-Select an action:
-1. Show all groups
-2. Group details
-3. Change a group
-4. Create a new group
-"""
+GROUPS_MENU = 'Select an action:\n{actions}\n'
+
+GROUP_FIELD_MANDATORY = 'Group {field} cannot be empty'
 JSON_CONTENT_MISSING = 'No json data was returned in response'
+JSON_KEY_MISSING = 'JSON contains no {key}'
 MEMBER_FORMAT_INVALID = (
     'Invalid user identifier provided: {identifier} '
     'Only:\n'
@@ -49,31 +50,5 @@ MEMBER_FORMAT_INVALID = (
     f'- emails: [alphanumeric strings ending with {MAIL_DOMAIN}]\n'
     '- nicknames [alphanumeric strings]\n'
     'are accepted!')
+NOT_A_NUMBER = 'Only numeric values are accepted'
 TRUNCATED_NOTIFICATION = '\n[Members output truncated to {limit}]'
-
-# RULES TEMPLATES
-
-RECIEVER_EMAIL = f'someone{MAIL_DOMAIN}'
-FORWARDED_TO = f'someone-else{MAIL_DOMAIN}'
-DEFAULT_RULES = {
-    'rules': [
-        {
-            'actions': [
-                {
-                    'action': 'forward',
-                    'data': {
-                        'email': RECIEVER_EMAIL
-                    }
-                }
-            ],
-            'condition': {
-                'to': FORWARDED_TO,
-                'from': {'$ne': RECIEVER_EMAIL},
-            },
-            'scope': {
-                'direction': 'inbound'
-            },
-            'terminal': False
-        }
-    ]
-}

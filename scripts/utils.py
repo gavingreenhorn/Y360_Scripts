@@ -1,4 +1,5 @@
 import csv
+from enum import Enum, IntEnum
 from typing import Iterable, Sequence, TYPE_CHECKING
 
 from prettytable import PrettyTable
@@ -33,3 +34,28 @@ def write_to_csv(rows, filename) -> None:
             quoting=csv.QUOTE_MINIMAL)
         writer.writerows(
             [USERS_OUTPUT_FIELDS, *rows])
+
+
+class GroupPrompts(Enum):
+    NAME = 'Name for the team:\n'
+    LABEL = 'Mailing list name (the part preceding @nmrauto.ru):\n'
+    DESCRIPTION = 'Description for the team:\n'
+    ADMINS = 'Admin(s) ID(s):\n'
+    MEMBERS = 'Member(s) ID(s):\n'
+
+    def __str__(self):
+        return self.value
+
+
+class GroupActions(IntEnum):
+    SHOW_ALL_GROUPS = 1
+    GROUP_DETAILS = 2
+    MODIFY_GROUP = 3
+    CREATE_GROUP = 4
+
+    def __str__(self):
+        return f'{self.value}: {self.name.title().replace("_", " ")}'
+    
+    @classmethod
+    def to_str(cls):
+        return '\n'.join(str(action) for action in cls)

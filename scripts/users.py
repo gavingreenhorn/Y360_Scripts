@@ -5,8 +5,9 @@ from typing import Iterable, Optional
 from requests_cache import CachedSession
 
 from constants import (
-    CACHE_EXPIRATION, OUTPUT_FILE_NAME, USERS_INPUT_FIELDS, USER_STR_TEMPLATE,
-    USERS_PER_PAGE, USERS_URL, ACCEPT_HEADER)
+    CACHE_EXPIRATION, OUTPUT_FILE_NAME, USERS_INPUT_FIELDS,
+    USER_STR_TEMPLATE, USERS_PER_PAGE, USERS_URL,
+    ACCEPT_HEADER, JSON_CONTENT_MISSING, JSON_KEY_MISSING)
 from utils import get_user_rows, write_to_csv, get_users_table
 
 
@@ -46,9 +47,11 @@ def get_users(session: CachedSession) -> Iterable[User]:
             headers=ACCEPT_HEADER,
             params=params)
     response.raise_for_status()
-    if 'users' not in (json_data := response.json()):
-        raise KeyError('Couldn\'t extract users from server response')
-    for json_object in json_data['users']:
+    if not (json_data := response.json()):
+        raise ValueError(JSON_CONTENT_MISSING)
+    if not (users := json_data.get('users')):
+        raise KeyError(JSON_KEY_MISSING.format(key='users'))
+    for json_object in users:
         yield User(**json_object)
 
 
@@ -61,7 +64,3 @@ def main(path, verbose=False, *args, **kwargs):
         if verbose:
             print(get_users_table(rows))
     print(f'Saved results to {output_file}')
-
-
-if __name__ == '__main__':
-    main(Path(input('Enter a path to save directory:\n')))
