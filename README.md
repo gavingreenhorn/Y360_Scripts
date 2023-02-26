@@ -1,4 +1,7 @@
 # Y360 API scripts
+
+[![Y360_scripts workflow](https://github.com/gavingreenhorn/Y360_scripts/actions/workflows/Y360_scripts_workflow.yml/badge.svg?event=push)](https://github.com/gavingreenhorn/Y360_scripts/actions/workflows/Y360_scripts_workflow.yml)
+
 ## Requirements
  - Python 3.9+ (`python3 --version`)
 ## Deployment
