@@ -1,4 +1,5 @@
 from itertools import islice
+from pathlib import Path
 from requests_cache import CachedSession
 from urllib.parse import urljoin
 
@@ -8,7 +9,7 @@ from utils import (
     get_user_rows, write_to_csv)
 from constants import (
     CACHE_EXPIRATION, GROUPS_URL, MAIL_DOMAIN, GROUP_ID_PROMPT,
-    MEMBER_FORMAT_INVALID, GROUPS_MENU, GROUP_INFO,
+    MEMBER_FORMAT_INVALID, GROUPS_MENU, GROUP_INFO, PATH_NOT_FOUND,
     GROUP_FIELDS, MEMBERS_OUTPUT_LIMIT, NO_GROUP_ID_ENTERED,
     TRUNCATED_NOTIFICATION, JSON_CONTENT_MISSING, REQUEST_PARAMETERS,
     NOT_A_NUMBER, GROUP_FIELD_MANDATORY, SAVED_TO_FILE, UNKNOWN_GROUP_ID)
@@ -17,7 +18,6 @@ from constants import (
 def validate_group_id(input_string, groups):
     if input_string.isdigit():
         return input_string
-    print(groups)
     if group_id := next(
         (group['id'] for group in groups
          if input_string in
@@ -55,6 +55,20 @@ def get_users_ids(input_list, users):
         validate_user_ids(input_list, users) if user_id]
 
 
+def read_from_file(path):
+    if not Path(path).exists():
+        raise FileNotFoundError(PATH_NOT_FOUND.format(path=path))
+    with open(path, 'r') as file:
+        return [line.strip().lower() for line in file.readlines()]
+
+
+def read_members(users):
+    if (members_input := input(GroupPrompts.MEMBERS)).startswith('file::'):
+        return get_users_ids(
+            read_from_file(members_input.split('::')[1]), users)
+    return get_users_ids(members_input.split(), users)
+
+
 def get_post_payload(users, create=True):
     payload = {}
     payload['type'] = 'generic'
@@ -70,7 +84,7 @@ def get_post_payload(users, create=True):
         payload['description'] = description
     if admins := get_users_ids(input(GroupPrompts.ADMINS).split(), users):
         payload['admins'] = admins
-    if members := get_users_ids(input(GroupPrompts.MEMBERS).split(), users):
+    if members := read_members(users):
         payload['members'] = members
     return payload
 

@@ -58,8 +58,15 @@ Calling with the option `[-v --verbose]` will output all members.
 **Get group details:** select option 2  
 > If `[-o --output]` option is specified, saves a csv file with group members to the specified location, otherwise saves it to the location defined by the `OUTPUT_FOLDER_NAME` constant; group name is used as a file name
 
+> Group ID prompt accepts ID itself, group name or group label (the part preceding @domain.tld)
+
 **Patch existing group:** select option 3  
 **Create a new group:** select option 4
+
+> Members prompt in options 3 and 4 accepts:
+>- path to a file containing IDs (one ID per line) in the following format: `file::/dir/.../filename`
+>- whitespace-separated list of IDs  
+ID itself, login name or email are considered valid IDs, the rest will be skipped
 <hr>
 
 ### __Rules__

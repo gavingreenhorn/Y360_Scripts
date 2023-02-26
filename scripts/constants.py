@@ -41,6 +41,7 @@ GROUP_INFO = ('ID: [{id}]  Name: [{name}]  Email: [{email}]'
               '\nMembers: [{members_count}]\n{members}')
 GROUPS_MENU = 'Select an action:\n{actions}\n'
 
+PATH_NOT_FOUND = 'Given path not found: "{path}"'
 GROUP_FIELD_MANDATORY = 'Group {field} cannot be empty'
 GROUP_ID_PROMPT = 'Enter group ID: '
 NO_GROUP_ID_ENTERED = 'ID cannot be empty'
@@ -48,7 +49,7 @@ UNKNOWN_GROUP_ID = 'Could not find a group by the given identifier "{id}"'
 JSON_CONTENT_MISSING = 'No json data was returned in response'
 JSON_KEY_MISSING = 'JSON contains no {key}'
 MEMBER_FORMAT_INVALID = (
-    'Invalid user identifier provided: {identifier} '
+    'Invalid user identifier provided: "{identifier}" '
     'Only:\n'
     '- IDs: [numeric strings]\n'
     f'- emails: [alphanumeric strings ending with {MAIL_DOMAIN}]\n'
