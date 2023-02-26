@@ -6,16 +6,24 @@
  - Python 3.9+ (`python3 --version`)
 ## Deployment
  `git clone git@github.com:gavingreenhorn/Y360_Scripts.git`  
+ (OR `https://github.com/gavingreenhorn/Y360_Scripts.git`)   
  `cd Y360_Scripts`  
- > optionally & preferrably deploy to isolated environment:
+ > optionally & preferrably deploy to isolated environment  
+ 
+ _linux_:
  ```
  python3 -m venv venv 
  . venv/bin/activate
  ```
+ _windows_:
+```
+py -m venv venv
+. venv/scripts/activate.ps1
+```
  `python3 -m pip install -r requirements.txt`  
- `echo TOKEN=... > .env`  
- `echo ORG_ID=... >> .env`  
- `echo MAIL_DOMAIN=... >> .env`
+ `echo TOKEN=... > .env` (your Y360 debug token)   
+ `echo ORG_ID=... >> .env` (your organistation ID)  
+ `echo MAIL_DOMAIN=... >> .env` (@your_mail_domain.tld)
 
 ## Usage
 ### __Users__
