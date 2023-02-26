@@ -8,7 +8,7 @@ TOKEN = os.environ['TOKEN']  # your token
 ORG_ID = os.environ['ORG_ID']  # organisation ID
 MAIL_DOMAIN = os.environ['MAIL_DOMAIN']
 
-BASE_URL = f'https://api360.yandex.net/directory/v1/org/{ORG_ID}/' # base API endpoint
+BASE_URL = f'https://api360.yandex.net/directory/v1/org/{ORG_ID}/'  # base API endpoint
 USERS_URL = urljoin(BASE_URL, 'users/')  # users endpoint
 GROUPS_URL = urljoin(BASE_URL, 'groups/')  # users endpoint
 RULES_URL = f'https://api360.yandex.net/admin/v1/mail/routing/org/{ORG_ID}/rules'  # rules endpoint
@@ -18,7 +18,7 @@ USERS_OUTPUT_FILE_NAME = 'users.csv'  # name under which a csv is saved
 
 USERS_PER_PAGE = 800  # how many users are loaded
 CACHE_EXPIRATION = 600  # milliseconds
-MEMBERS_OUTPUT_LIMIT = 5 # milliseconds
+MEMBERS_OUTPUT_LIMIT = 5  # milliseconds
 
 USERS_INPUT_FIELDS = ['id', 'name', 'nickname', 'email']  # fields to read from JSON response - see available fields @ YAPI docs
 USERS_OUTPUT_FIELDS = ['id', 'first_name', 'last_name', 'nickname', 'email']  # fields to output to CSV / console

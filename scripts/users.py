@@ -13,7 +13,7 @@ from utils import get_user_rows, write_to_csv, get_users_table
 class User(namedtuple('User', USERS_INPUT_FIELDS)):
 
     def __new__(cls, *args, **kwargs) -> 'User':
-        kwargs = { k: v for k, v in kwargs.items() if k in cls._fields }
+        kwargs = {k: v for k, v in kwargs.items() if k in cls._fields}
         return super().__new__(cls, *args, **kwargs)
 
     @property

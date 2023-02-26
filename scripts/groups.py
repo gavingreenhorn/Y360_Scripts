@@ -1,10 +1,10 @@
 from itertools import islice
-from pathlib import Path
 from requests_cache import CachedSession
 from urllib.parse import urljoin
 
 from users import get_users
-from utils import (GroupActions, GroupPrompts, get_users_table,
+from utils import (
+    GroupActions, GroupPrompts, get_users_table,
     get_user_rows, write_to_csv)
 from constants import (
     CACHE_EXPIRATION, GROUPS_URL, MAIL_DOMAIN, GROUP_ID_PROMPT,
@@ -26,7 +26,7 @@ def validate_group_id(input_string, groups):
         return group_id
     else:
         raise ValueError(UNKNOWN_GROUP_ID.format(id=input_string))
-        
+
 
 def validate_user_id(input_string, users):
     if input_string.isdigit():
@@ -54,7 +54,7 @@ def get_users_ids(input_list, users):
     return [
         user_id for user_id in
         validate_user_ids(input_list, users) if user_id]
-        
+
 
 def get_post_payload(users, create=True):
     payload = {}
@@ -116,7 +116,7 @@ def get_json_data(action, session, users):
 def get_members_data(members, users):
     yield from get_user_rows(
         (user for user in users if user.id in
-        (member['id'] for member in members)))
+            (member['id'] for member in members)))
 
 
 def get_group_data(json_object, users):
@@ -151,7 +151,7 @@ def main(path, verbose=False, *args, **kwargs):
         try:
             action = int(input(
                 GROUPS_MENU.format(actions=GroupActions.to_str())))
-        except:
+        except ValueError:
             raise ValueError(NOT_A_NUMBER)
         if action in iter(GroupActions):
             existing_users = list(get_users(session))

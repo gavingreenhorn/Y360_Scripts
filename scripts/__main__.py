@@ -28,5 +28,8 @@ if __name__ == '__main__':
         choices=('users', 'groups', 'rules'),
         help='Select a script to run')
     parser.add_argument('-o', '--output', help='Save directory path')
-    parser.add_argument('-v', '--verbose', action='store_true', help='Verbose output to console')
+    parser.add_argument(
+        '-v', '--verbose',
+        action='store_true',
+        help='Verbose output to console')
     main(parser.parse_args())

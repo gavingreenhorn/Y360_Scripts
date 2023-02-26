@@ -47,7 +47,7 @@ Calling with the option `[-v --verbose]` will output all members.
 **Get group details:** select option 2  
 > If `[-o --output]` option is specified, saves a csv file with group members to the specified location, otherwise saves it to the location defined by the `OUTPUT_FOLDER_NAME` constant; group name is used as a file name
 
-**Patch existing group:**: select option 3  
+**Patch existing group:** select option 3  
 **Create a new group:** select option 4
 <hr>
 

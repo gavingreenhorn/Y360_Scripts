@@ -21,4 +21,4 @@ def main(*args, **kwargs) -> None:
             raise ValueError(JSON_CONTENT_MISSING)
         if not (rules := json.get('rules')):
             raise KeyError(JSON_KEY_MISSING.format(key='rules'))
-        print_rules(rules)         
+        print_rules(rules)

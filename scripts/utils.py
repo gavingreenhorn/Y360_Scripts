@@ -55,7 +55,7 @@ class GroupActions(IntEnum):
 
     def __str__(self):
         return f'{self.value}: {self.name.title().replace("_", " ")}'
-    
+
     @classmethod
     def to_str(cls):
         return '\n'.join(str(action) for action in cls)
