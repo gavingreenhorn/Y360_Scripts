@@ -4,7 +4,7 @@
 ## Deployment
  `git clone git@github.com:gavingreenhorn/Y360_Scripts.git`  
  `cd Y360_Scripts`  
- *optionally & preferrably deploy to isolated environment:*  
+ > optionally & preferrably deploy to isolated environment:
  ```
  python3 -m venv venv 
  . venv/bin/activate
@@ -21,49 +21,32 @@
 python3 scripts users
 ```
 
-User data is controled by `USERS_INPUT_FIELDS` (see scripts/constants.py)
-
+> User data is controled by `USERS_INPUT_FIELDS` (see scripts/constants.py)  
 Csv columns are controlled by `USERS_OUTPUT_FIELDS`
 
-Csv file is saved to `OUTPUT_FOLDER_NAME` under `USERS_OUTPUT_FILE_NAME` inside the current working directory
-
+> Csv file is saved to `OUTPUT_FOLDER_NAME` under `USERS_OUTPUT_FILE_NAME` inside the current working directory  
 If `[-o --output]` argument is given, file is saved to the given directory under `USERS_OUTPUT_FILE_NAME`
 
-Calling with the option `[-v --verbose]` outputs user data to console 
+> Calling with the option `[-v --verbose]` outputs user data to console 
 <hr>
 
 ### __Groups__
 
-Calling with the option `[-v --verbose]` will output all group members to console.
-
-Default number of users to output is controlled by the `MEMBERS_OUTPUT_LIMIT` constant.
-
-
-**Get all groups:**
 ```
-python3 scripts groups
+python3 scripts group
 ```
 
-select 1 in the menu
+>Default number of group members to print to console is controlled by the `MEMBERS_OUTPUT_LIMIT` constant.  
+Calling with the option `[-v --verbose]` will output all members.  
 
-**Get group details:**
-```
-python3 scripts groups
-```
-select 2 in the menu and provide group ID  
-if `[-o --output]` option is specified, saves file to the specified location, otherwise saves to the location defined by the `OUTPUT_FOLDER_NAME` constant
 
-**Patch existing group:**
-```
-python3 scripts groups
-```
-select 3 in the menu, provide group ID and required details
 
-**Create a new group:**
-```
-python3 scripts groups
-```
-select 4 in the menu and provide required details
+**Get all groups:** select option 1  
+**Get group details:** select option 2  
+> If `[-o --output]` option is specified, saves a csv file with group members to the specified location, otherwise saves it to the location defined by the `OUTPUT_FOLDER_NAME` constant; group name is used as a file name
+
+**Patch existing group:**: select option 3  
+**Create a new group:** select option 4
 <hr>
 
 ### __Rules__
@@ -71,4 +54,4 @@ select 4 in the menu and provide required details
 ```
 python3 scripts rules
 ```
-'pretty prints' raw JSON response containing current rules
+>"pretty prints" raw JSON response to console
