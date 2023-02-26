@@ -1,6 +1,6 @@
 # Y360 API scripts
 
-[![flake8](https://github.com/gavingreenhorn/Y360_scripts/actions/workflows/Y360_scripts_workflow.yml/badge.svg?event=push)](https://github.com/gavingreenhorn/Y360_scripts/actions/workflows/Y360_scripts_workflow.yml)
+[![PEP8 (flake8)](https://github.com/gavingreenhorn/Y360_scripts/actions/workflows/Y360_scripts_workflow.yml/badge.svg?event=push)](https://github.com/gavingreenhorn/Y360_scripts/actions/workflows/Y360_scripts_workflow.yml)
 
 ## Requirements
  - Python 3.9+ (`python3 --version`)
