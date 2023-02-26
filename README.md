@@ -2,23 +2,23 @@
 ## Requirements
  - Python 3.9+ (`python3 --version`)
 ## Deployment
- - `git clone git@github.com:gavingreenhorn/Y360_Scripts.git`
- - `cd Y360_Scripts`
- - *optionally & preferrably deploy to isolated environment:*  
+ `git clone git@github.com:gavingreenhorn/Y360_Scripts.git`  
+ `cd Y360_Scripts`  
+ *optionally & preferrably deploy to isolated environment:*  
  ```
  python3 -m venv venv 
  . venv/bin/activate
  ```
- - `python3 -m pip install -r requirements.txt`
- - `echo TOKEN=... > .env`
- - `echo ORG_ID=... >> .env`
- - `echo MAIL_DOMAIN=... >> .env`
+ `python3 -m pip install -r requirements.txt`  
+ `echo TOKEN=... > .env`  
+ `echo ORG_ID=... >> .env`  
+ `echo MAIL_DOMAIN=... >> .env`
 
 ## Usage
 ### __Users__
 **Get all users:**
 ```
-python3 scripts users.py
+python3 scripts users
 ```
 
 User data is controled by `USERS_INPUT_FIELDS` (see scripts/constants.py)
