@@ -14,7 +14,7 @@ GROUPS_URL = urljoin(BASE_URL, 'groups/')  # users endpoint
 RULES_URL = f'https://api360.yandex.net/admin/v1/mail/routing/org/{ORG_ID}/rules'  # rules endpoint
 
 OUTPUT_FOLDER_NAME = 'results'  # name of the folder that is created to store saved files
-OUTPUT_FILE_NAME = 'users.csv'  # name under which a csv is saved
+USERS_OUTPUT_FILE_NAME = 'users.csv'  # name under which a csv is saved
 
 USERS_PER_PAGE = 800  # how many users are loaded
 CACHE_EXPIRATION = 600  # milliseconds
@@ -35,12 +35,16 @@ REQUEST_PARAMETERS = {
 }
 
 USER_STR_TEMPLATE = '{class_name}{fields}'
+SAVED_TO_FILE = 'Saved results to {file}'
 
 GROUP_INFO = ('ID: [{id}]  Name: [{name}]  Email: [{email}]'
               '\nMembers: [{members_count}]\n{members}')
 GROUPS_MENU = 'Select an action:\n{actions}\n'
 
 GROUP_FIELD_MANDATORY = 'Group {field} cannot be empty'
+GROUP_ID_PROMPT = 'Enter group ID: '
+NO_GROUP_ID_ENTERED = 'ID cannot be empty'
+UNKNOWN_GROUP_ID = 'Could not find a group by the given identifier "{id}"'
 JSON_CONTENT_MISSING = 'No json data was returned in response'
 JSON_KEY_MISSING = 'JSON contains no {key}'
 MEMBER_FORMAT_INVALID = (

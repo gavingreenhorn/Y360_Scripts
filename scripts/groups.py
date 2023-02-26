@@ -1,16 +1,32 @@
 from itertools import islice
+from pathlib import Path
 from requests_cache import CachedSession
 from urllib.parse import urljoin
 
 from users import get_users
-from utils import GroupActions, GroupPrompts, get_users_table, get_user_rows
+from utils import (GroupActions, GroupPrompts, get_users_table,
+    get_user_rows, write_to_csv)
 from constants import (
-    CACHE_EXPIRATION, GROUPS_URL, MAIL_DOMAIN,
+    CACHE_EXPIRATION, GROUPS_URL, MAIL_DOMAIN, GROUP_ID_PROMPT,
     MEMBER_FORMAT_INVALID, GROUPS_MENU, GROUP_INFO,
-    GROUP_FIELDS, MEMBERS_OUTPUT_LIMIT,
+    GROUP_FIELDS, MEMBERS_OUTPUT_LIMIT, NO_GROUP_ID_ENTERED,
     TRUNCATED_NOTIFICATION, JSON_CONTENT_MISSING, REQUEST_PARAMETERS,
-    NOT_A_NUMBER, GROUP_FIELD_MANDATORY)
+    NOT_A_NUMBER, GROUP_FIELD_MANDATORY, SAVED_TO_FILE, UNKNOWN_GROUP_ID)
 
+
+def validate_group_id(input_string, groups):
+    if input_string.isdigit():
+        return input_string
+    print(groups)
+    if group_id := next(
+        (group['id'] for group in groups
+         if input_string in
+         (group.get('name'), group.get('label'))), None
+    ):
+        return group_id
+    else:
+        raise ValueError(UNKNOWN_GROUP_ID.format(id=input_string))
+        
 
 def validate_user_id(input_string, users):
     if input_string.isdigit():
@@ -77,13 +93,30 @@ def make_request(action, session, users):
     method = getattr(session, verb)
     url = GROUPS_URL
     if action in (GroupActions.GROUP_DETAILS, GroupActions.MODIFY_GROUP):
-        if not (group_id := input('Enter group ID: ')):
-            raise ValueError('ID cannot be empty')
-        url = urljoin(GROUPS_URL, group_id)
+        if not (group_id_input := input(GROUP_ID_PROMPT)):
+            raise ValueError(NO_GROUP_ID_ENTERED)
+        group_id = validate_group_id(
+            group_id_input, get_json_data(
+                GroupActions.SHOW_ALL_GROUPS, session, users).get('groups'))
+        url = urljoin(GROUPS_URL, str(group_id))
     return method(
         url=url,
         headers=headers,
         json=get_request_payload(action, users))
+
+
+def get_json_data(action, session, users):
+    response = make_request(
+        action, session, users)
+    if not (json_data := response.json()):
+        raise ValueError(JSON_CONTENT_MISSING)
+    return json_data
+
+
+def get_members_data(members, users):
+    yield from get_user_rows(
+        (user for user in users if user.id in
+        (member['id'] for member in members)))
 
 
 def get_group_data(json_object, users):
@@ -91,9 +124,7 @@ def get_group_data(json_object, users):
     for key in GROUP_FIELDS:
         group_data[key] = json_object.get(key)
     if members := group_data.get('members'):
-        group_data['members'] = get_user_rows(
-            (user for user in users if user.id in
-            (member['id'] for member in members)))
+        group_data['members'] = list(get_members_data(members, users))
     group_data['members_count'] = len(members) if members else 0
     yield group_data
 
@@ -124,11 +155,14 @@ def main(path, verbose=False, *args, **kwargs):
             raise ValueError(NOT_A_NUMBER)
         if action in iter(GroupActions):
             existing_users = list(get_users(session))
-            response = make_request(
-                action, session, existing_users)
-            if not (json_data := response.json()):
-                raise ValueError(JSON_CONTENT_MISSING)
+            json_data = get_json_data(action, session, existing_users)
             for group_data in process_json_data(json_data, existing_users):
+                if action == GroupActions.GROUP_DETAILS:
+                    path.mkdir(exist_ok=True)
+                    name, members = group_data['name'], group_data['members']
+                    output_file = path / (name + '.csv')
+                    write_to_csv(members, output_file)
+                    print(SAVED_TO_FILE.format(file=output_file))
                 print(get_group_users_table(
                     group_data, None if verbose else MEMBERS_OUTPUT_LIMIT))
         else:

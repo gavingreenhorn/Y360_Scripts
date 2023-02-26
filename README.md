@@ -19,9 +19,9 @@
 
 | csv columns are controlled by `USERS_OUTPUT_FIELDS`
 
-| csv file is saved to `OUTPUT_FOLDER_NAME` under `OUTPUT_FILE_NAME` inside the current working directory
+| csv file is saved to `OUTPUT_FOLDER_NAME` under `USERS_OUTPUT_FILE_NAME` inside the current working directory
 
-| if `-o --output` argument is given, file is saved to the given directory under `OUTPUT_FILE_NAME`
+| if `-o --output` argument is given, file is saved to the given directory under `USERS_OUTPUT_FILE_NAME`
 
 | calling with the option `-v --verbose` outputs user data to console 
 ### Groups
