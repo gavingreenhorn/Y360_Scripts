@@ -24,8 +24,7 @@ def validate_group_id(input_string, groups):
          (group.get('name'), group.get('label'))), None
     ):
         return group_id
-    else:
-        raise ValueError(UNKNOWN_GROUP_ID.format(id=input_string))
+    raise ValueError(UNKNOWN_GROUP_ID.format(id=input_string))
 
 
 def validate_user_id(input_string, users):
